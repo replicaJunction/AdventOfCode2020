@@ -4,4 +4,12 @@ This repository is my attempt to complete the exercises in the [Advent of Code](
 
 If you're working on the Advent of Code challenges yourself, I strongly recommend you try to complete each exercise on your own before looking at my solutions.
 
+**Note:** These files also contain my example puzzle inputs. These will probably NOT match your puzzle inputs.
+
 Code in this repository is licensed under the [MIT License](LICENSE).
+
+## Contents
+
+| Title | Code |
+|-------|------|
+| [Day 1: Report Repair](https://adventofcode.com/2020/day/1) | [Day01.fsx](AdventOfCode2020/Day01.fsx) |
