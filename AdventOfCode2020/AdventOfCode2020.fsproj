@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Logging.fs" />
+    <Compile Include="Lib.fs" />
+    <Compile Include="Test.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Day01.fsx" />
+  </ItemGroup>
+
+</Project>
