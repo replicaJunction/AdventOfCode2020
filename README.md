@@ -12,5 +12,5 @@ Code in this repository is licensed under the [MIT License](LICENSE).
 
 | Title | Code |
 |-------|------|
-| [Day 1: Report Repair](https://adventofcode.com/2020/day/1) | [Day01.fsx](AdventOfCode2020/Challenges/Day01.fs) |
-| [Day 2: Password Philosophy](https://adventofcode.com/2020/day/2) | [Day02.fsx](AdventOfCode2020/Challenges/Day02.fs) |
+| [Day 1: Report Repair](https://adventofcode.com/2020/day/1) | [Day01.fs](AdventOfCode2020/Challenges/Day01.fs) |
+| [Day 2: Password Philosophy](https://adventofcode.com/2020/day/2) | [Day02.fs](AdventOfCode2020/Challenges/Day02.fs) |
