@@ -1,5 +1,10 @@
 ﻿module Day03
 
+type Vector = {
+    X: int
+    Y: int
+}
+
 type Space =
     | Tree
     | Empty
@@ -29,6 +34,7 @@ module Row =
             |> Seq.toArray
 
         Seq.initInfinite (fun i -> items.[i % items.Length])
+        |> Seq.cache
 
     let toString len (row:Row) =
         row
@@ -42,40 +48,46 @@ module Area =
         |> Lib.String.splitLines
         |> List.map Row.fromString
 
-    let at ((x:int), (y:int)) (area:Area) : Space =
-        if y >= area.Length then failwithf "Could not read row %i from the provided area: length of the area is %i. Out of bounds." y area.Length
+    let spaceAt (point:Vector) (area:Area) : Space =
+        if point.Y >= area.Length then
+            failwithf
+                "Could not read row %i from the provided area: length of the area is %i. Out of bounds."
+                point.Y
+                area.Length
 
-        area.[y]
-        |> Seq.take (x+1)
-        |> Seq.last
+        area.[point.Y]
+        |> Seq.skip point.X
+        |> Seq.head
 
-    let createPath ((xSlope:int),(ySlope:int)) (area:Area) =
-        let rec nextPoint (x,y) = seq {
-            yield (x,y)
-            let x' = x + xSlope
+    let createPath (slope:Vector) (area:Area) =
+        let rec nextPoint (point:Vector) = seq {
+            yield point
 
-            match y + ySlope with
+            let next = {
+                X = point.X + slope.X
+                Y = point.Y + slope.Y
+            }
+
+            match next.Y with
                 | y' when y' >= area.Length -> ()
-                | y' ->
-                    yield! (nextPoint (x', y'))
+                | _ -> yield! (nextPoint next)
         }
 
-        nextPoint (0,0)
+        nextPoint {X = 0; Y = 0}
 
-    let spacesOnPath (xSlope, ySlope) (area:Area) =
-        createPath (xSlope, ySlope) area
-        |> Seq.map (fun p -> at p area)
+    let spacesOnPath slope (area:Area) =
+        createPath slope area
+        |> Seq.map (fun p -> spaceAt p area)
 
-    let treesOnPath (xSlope, ySlope) area =
-        spacesOnPath (xSlope, ySlope) area
-        |> Seq.countBy (fun space -> space = Space.Tree)
-        |> Seq.find (fun (b,i) -> b)
-        |> snd
+    let treesOnPath slope area =
+        spacesOnPath slope area
+        |> Seq.filter (fun space -> space = Tree)
+        |> Seq.length
 
-    let productOfTreesOnPaths (paths: (int*int) list) area =
+    let productOfTreesOnPaths (paths: Vector list) area =
         // Tricky! Need to use a larger data type than int (which in F# is 32-bit signed).
 
         paths
-        |> List.map (fun (x,y) -> treesOnPath (x,y) area |> uint64)
+        |> List.map (fun v -> treesOnPath v area |> uint64)
         |> List.fold (*) 1UL
 

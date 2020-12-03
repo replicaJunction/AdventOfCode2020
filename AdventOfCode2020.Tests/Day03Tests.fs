@@ -30,16 +30,6 @@ module private Gens =
 
     let rowAndLengthGen = gen {
         let! len = Gen.choose (4, 24)
-
-        //let! chars = rowStringGen len
-        //    Gen.elements ["#"; "."]
-        //    |> Gen.listOfLength len
-
-        //let row =
-        //    chars
-        //    |> String.concat ""
-        //    |> Row.fromString
-
         let! row = rowGen len
         return RowAndLength (row, len)
     }
@@ -51,6 +41,13 @@ module private Gens =
         return!
             rowGen rowLength
             |> Gen.listOfLength areaLength
+    }
+
+    let vectorGen : Gen<Vector> = gen {
+        let! x = Gen.choose (1, 3)
+        let! y = Gen.choose (1, 3)
+
+        return { X = x; Y = y }
     }
 
 type ArbitraryModifiers =
@@ -79,6 +76,8 @@ type ArbitraryModifiers =
 
     static member Area () =
         Arb.fromGen Gens.areaGen
+
+    static member Vector() = Gens.vectorGen |> Arb.fromGen
 
 type ModPropertyAttribute () =
     inherit PropertyAttribute(Arbitrary = [|
@@ -152,20 +151,20 @@ module Day03 =
     [<Fact>]
     let ``Area - createPath from the example returns the expected path`` () =
         let area = Area.fromString example
-        let path = Area.createPath (3,1) area |> Seq.toList
+        let path = Area.createPath {X=3;Y=1} area |> Seq.toList
 
         let expected = [
-            (0,0)
-            (3,1)
-            (6,2)
-            (9,3)
-            (12,4)
-            (15,5)
-            (18,6)
-            (21,7)
-            (24,8)
-            (27,9)
-            (30,10)
+            {X=0;Y=0}
+            {X=3;Y=1}
+            {X=6;Y=2}
+            {X=9;Y=3}
+            {X=12;Y=4}
+            {X=15;Y=5}
+            {X=18;Y=6}
+            {X=21;Y=7}
+            {X=24;Y=8}
+            {X=27;Y=9}
+            {X=30;Y=10}
         ]
 
         path
@@ -173,16 +172,12 @@ module Day03 =
 
     [<ModProperty>]
     let ``Area - createPath will always return a path of length (number of rows / y slope) (rounded up)``
-        (xSlope:SmallInt)
-        (ySlope:SmallInt)
+        (slope:Vector)
         (area:Area) =
 
-        let x = int xSlope
-        let y = int ySlope
+        let expected = (float (List.length area)) / (float slope.Y) |> System.Math.Ceiling |> int
 
-        let expected = (float (List.length area)) / (float y) |> System.Math.Ceiling |> int
-
-        let path = Area.createPath (x,y) area |> Seq.toList
+        let path = Area.createPath slope area |> Seq.toList
 
         path.Length
         |> should equal expected
@@ -191,7 +186,7 @@ module Day03 =
     let ``Area - treesOnPath works for the provided example`` () =
         let area = Area.fromString example
 
-        Area.treesOnPath (3, 1) area
+        Area.treesOnPath {X=3;Y=1} area
         |> should equal 7
 
     [<Fact>]
@@ -199,11 +194,11 @@ module Day03 =
         let area = Area.fromString example
 
         let paths = [
-            (1,1)
-            (3,1)
-            (5,1)
-            (7,1)
-            (1,2)
+            {X=1;Y=1}
+            {X=3;Y=1}
+            {X=5;Y=1}
+            {X=7;Y=1}
+            {X=1;Y=2}
         ]
 
         Area.productOfTreesOnPaths paths area
