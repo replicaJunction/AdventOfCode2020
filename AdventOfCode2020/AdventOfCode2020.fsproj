@@ -5,13 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Logging.fs" />
-    <Compile Include="Lib.fs" />
-    <Compile Include="Test.fs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Day01.fsx" />
+    <None Include="Runner.fsx" />
+    <Compile Include="Util\Logging.fs" />
+    <Compile Include="Util\Lib.fs" />
+    <Compile Include="Util\Test.fs" />
+    <None Include="Challenges\Day01.fs" />
+    <Compile Include="Challenges\Day02.fs" />
   </ItemGroup>
 
 </Project>

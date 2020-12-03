@@ -1,4 +1,4 @@
-﻿#r @"bin\Debug\net5.0\AdventOfCode2020.dll"
+﻿module Day01
 
 open TestExample
 
