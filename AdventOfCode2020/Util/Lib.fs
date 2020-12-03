@@ -33,3 +33,12 @@ let combinations size set =
 
     helper List.empty size set
 
+module String =
+    let replace ((old:string), (new_:string)) (str:string) = str.Replace(old, new_)
+
+    let splitLines (str:string) =
+        let crlf = System.Environment.NewLine.ToCharArray()
+        str.Split(crlf)
+        |> Array.toList
+        |> List.filter (System.String.IsNullOrWhiteSpace >> not)
+        |> List.map (fun x -> x.Trim())

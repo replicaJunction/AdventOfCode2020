@@ -11,6 +11,7 @@
     <Compile Include="Util\Test.fs" />
     <None Include="Challenges\Day01.fs" />
     <Compile Include="Challenges\Day02.fs" />
+    <Compile Include="Challenges\Day03.fs" />
   </ItemGroup>
 
 </Project>
