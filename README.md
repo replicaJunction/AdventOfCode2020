@@ -15,3 +15,4 @@ Code in this repository is licensed under the [MIT License](LICENSE).
 | [Day 1: Report Repair](https://adventofcode.com/2020/day/1) | [Day01.fs](AdventOfCode2020/Challenges/Day01.fs) |
 | [Day 2: Password Philosophy](https://adventofcode.com/2020/day/2) | [Day02.fs](AdventOfCode2020/Challenges/Day02.fs) |
 | [Day 3: Toboggan Trajectory](https://adventofcode.com/2020/day/3) | [Day03.fs](AdventOfCode2020/Challenges/Day03.fs) |
+| [Day 4: Passport Processing](https://adventofcode.com/2020/day/4) | [Day04.fs](AdventOfCode2020/Challenges/Day04.fs) |

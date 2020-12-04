@@ -24,22 +24,45 @@ let getPuzzleInput day =
 //|> Day03.Area.treesOnPath (3,1)
 //|> printfn "Trees on path: %i"
 
-// Day 3, part 2
-open Day03
-let paths = [
-    {X=1;Y=1}
-    {X=3;Y=1}
-    {X=5;Y=1}
-    {X=7;Y=1}
-    {X=1;Y=2}
-]
+//// Day 3, part 2
+//open Day03
+//let paths = [
+//    {X=1;Y=1}
+//    {X=3;Y=1}
+//    {X=5;Y=1}
+//    {X=7;Y=1}
+//    {X=1;Y=2}
+//]
 
-let f () =
-    getPuzzleInput "Day03.txt"
+//let f () =
+//    getPuzzleInput "Day03.txt"
+//    |> System.IO.File.ReadAllText
+//    |> Day03.Area.fromString
+//    |> Day03.Area.productOfTreesOnPaths paths
+//    |> printfn "Product of trees on the provided paths: %i"
+
+//Lib.timed f
+
+//// Day 4, part 1
+//open Day04
+//let f() =
+//    getPuzzleInput "Day04.txt"
+//    |> System.IO.File.ReadAllText
+//    |> parseText
+//    |> List.filter (isValid Validators.containsEverythingButCid)
+//    |> List.length
+//    |> printfn "Number of valid passports: %i"
+
+//Lib.timed f
+
+////Day 4, part 2
+open Day04
+fun () ->
+    getPuzzleInput "Day04.txt"
     |> System.IO.File.ReadAllText
-    |> Day03.Area.fromString
-    |> Day03.Area.productOfTreesOnPaths paths
-    |> printfn "Product of trees on the provided paths: %i"
-
-Lib.timed f
+    |> parseText
+    |> List.filter Validators.performAllValidations
+    |> List.length
+    |> printfn "Number of valid passports: %i"
+|> Lib.timed
 
