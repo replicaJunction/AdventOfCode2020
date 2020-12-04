@@ -79,10 +79,31 @@ let parseText (text:string) =
     |> splitLines
     |> parseLines
 
+let parseTextNew (text:string) =
+    // Rewrite of the above methods after comparing notes with some other solutions.
+    // Splitting by 2 newline characters makes everything so much easier.
+
+    let sectionFold acc (item:string) =
+        let split = item.Split(':')
+        let k = split.[0] |> PassportField.fromString
+        let v = (split.[1]).Trim()
+
+        acc |> Map.add k v
+
+    let parseSection (separators:char[]) (section:string) =
+        section.Split(separators, System.StringSplitOptions.RemoveEmptyEntries)
+        |> Array.fold sectionFold Map.empty
+
+    text.Split(String.replicate 2 System.Environment.NewLine)
+    |> Array.map (parseSection [| ' '; '\r'; '\n' |])
+    |> Array.toList
+
 module Validators =
     // Part 1 validator
     let containsEverythingButCid (p:Map<PassportField,_>) =
         // I like F#'s ability to write this without the parens
+        printfn "%A" p
+
         p.ContainsKey BirthYear &&
             p.ContainsKey IssueYear  &&
             p.ContainsKey ExpirationYear &&
@@ -117,12 +138,8 @@ module Validators =
     let hasValidHeight p =
         let validator height =
             match height with
-                | RegexMatch @"(\d+)cm" [ cm ] ->
-                    isIntBetween (150, 193) cm
-
-                | RegexMatch @"(\d+)in" [ inches ] ->
-                    isIntBetween (59, 76) inches
-
+                | RegexMatch @"(\d+)cm" [ IntegerBetween (150, 193) _ ] -> true
+                | RegexMatch @"(\d+)in" [ IntegerBetween (59, 76) _ ] -> true
                 | _ -> false
 
         validateField Height validator p

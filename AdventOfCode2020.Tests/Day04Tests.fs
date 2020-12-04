@@ -82,17 +82,22 @@ iyr:2011 ecl:brn hgt:59in"""
     [<Fact>]
     let ``Four sets of passport data are parsed from the example`` () =
         example
-        |> parseText
+        |> parseTextNew
         |> Seq.length
         |> should equal 4
 
     [<Fact>]
     let ``Example contains 2 valid passports according to Part 1`` () =
-        example
-        |> parseText
-        |> List.filter Validators.containsEverythingButCid
-        |> List.length
-        |> should equal 2
+        //example
+        //|> parseTextNew
+        //|> List.filter Validators.containsEverythingButCid
+        //|> List.length
+        //|> should equal 2
+
+        let parsed = parseTextNew example
+        let valid = parsed |> List.filter Validators.containsEverythingButCid
+
+        List.length valid |> should equal 2
 
 module Part2Examples =
     [<Literal>]
@@ -129,7 +134,7 @@ iyr:2010 hgt:158cm hcl:#b6652a ecl:blu byr:1944 eyr:2021 pid:093154719"""
     [<Fact>]
     let ``All of the provided invalid examples are invalid`` () =
         invalidExamples
-        |> parseText
+        |> parseTextNew
         |> List.forall (fun item ->
             Validators.performAllValidations item = false
             )
@@ -138,7 +143,7 @@ iyr:2010 hgt:158cm hcl:#b6652a ecl:blu byr:1944 eyr:2021 pid:093154719"""
     [<Fact>]
     let ``All of the provided valid examples are valid`` () =
         validExamples
-        |> parseText
+        |> parseTextNew
         |> List.forall Validators.performAllValidations
         |> should be True
 
